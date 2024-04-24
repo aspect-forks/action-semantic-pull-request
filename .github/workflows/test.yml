@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: yarn install
-      - run: yarn lint && yarn test
+      - run: pnpm install
+      - run: pnpm lint && pnpm test
 
   dist:
     runs-on: ubuntu-latest

@@ -17,8 +17,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
-      - run: yarn install
-      - run: yarn build
+      - run: pnpm install
+      - run: pnpm build
       - uses: ./
         id: lint_pr_title
         env:
