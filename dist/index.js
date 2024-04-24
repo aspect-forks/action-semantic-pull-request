@@ -56042,14 +56042,18 @@ module.exports = async function validatePrDescription(prDescription) {
     if (visibleChange[1] === 'no') {
         return;
     }
+    const errors = [];
     if (!prDescription.match(/relevant documentation.*updated.*:\s+(yes|no)/i)) {
-        raiseError("PR description must answer 'updated documentation' prompt with 'yes' or 'no'");
+        errors.push("PR description must answer 'updated documentation' prompt with 'yes' or 'no'");
     }
     if (!prDescription.match(/Breaking change.*:\s+(yes|no)/i)) {
-        raiseError("PR description must answer 'breaking changes' prompt with 'yes' or 'no'");
+        errors.push("PR description must answer 'breaking changes' prompt with 'yes' or 'no'");
     }
-    if (!prDescription.match(/release notes appear below:\s+(yes|no)/i)) {
-        raiseError("PR description must answer 'release notes' prompt with 'yes' or 'no'");
+    if (!prDescription.match(/release notes appear below:\s*(yes)?$/mi)) {
+        errors.push("PR description must answer 'release notes' prompt");
+    }
+    if (errors.length > 0) {
+        raiseError(errors.join("\n"));
     }
     function raiseError(message) {
         core.setOutput('error_message', message);
