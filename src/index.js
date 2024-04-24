@@ -2,6 +2,7 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const parseConfig = require('./parseConfig');
 const validatePrTitle = require('./validatePrTitle');
+const validatePrDescription = require('./validatePrDescription');
 
 module.exports = async function run() {
   try {
@@ -133,6 +134,8 @@ module.exports = async function run() {
             }
           }
         }
+
+        await validatePrDescription(pullRequest.body);
       } catch (error) {
         validationError = error;
       }
