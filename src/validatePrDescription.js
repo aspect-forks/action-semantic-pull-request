@@ -11,10 +11,17 @@ module.exports = async function validatePrDescription(prDescription) {
     if (visibleChange[1] === 'no') {
         return;
     }
-    const errors = [];
-    if (!prDescription.match(/relevant documentation.*updated.*:\s+(yes|no)/i)) {
-        errors.push("PR description must answer 'updated documentation' prompt with 'yes' or 'no'");
+
+    const docsChange = prDescription.match(/need or change documentation:\s+(yes|no)/i);
+    if (!docsChange) {
+        raiseError("PR description must answer prompt about documentation with 'yes' or 'no'");
     }
+    if (docsChange[1] === 'no') {
+        return;
+    }
+
+    const errors = [];
+
     if (!prDescription.match(/Breaking change.*:\s+(yes|no)/i)) {
         errors.push("PR description must answer 'breaking changes' prompt with 'yes' or 'no'");
     }
